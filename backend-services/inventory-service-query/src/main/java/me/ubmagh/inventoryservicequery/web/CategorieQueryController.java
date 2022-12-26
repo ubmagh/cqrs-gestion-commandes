@@ -1,7 +1,6 @@
 package me.ubmagh.inventoryservicequery.web;
 
-import dtos.LongCategorieDTO;
-import dtos.ShortCategorieDTO;
+import dtos.categorie.ShortCategorieDTO;
 import lombok.AllArgsConstructor;
 import me.ubmagh.inventoryservicequery.mappers.CategorieMapper;
 import me.ubmagh.inventoryservicequery.entities.Categorie;
@@ -32,9 +31,9 @@ public class CategorieQueryController {
 
 
     @GetMapping("/categories/{id}")
-    public LongCategorieDTO getCategorieById(@PathVariable String id){
+    public ShortCategorieDTO getCategorieById(@PathVariable String id){
         Categorie response = queryGateway.query(new GetCategorieByIdQuery(id), ResponseTypes.instanceOf(Categorie.class)).join();
-        return mapper.toLongCategorie(response);
+        return mapper.toShortCategorie(response);
     }
 
 }

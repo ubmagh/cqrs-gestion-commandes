@@ -1,7 +1,7 @@
 package me.ubmagh.inventoryservicequery.mappers;
 
-import dtos.LongProduitDTO;
-import dtos.ShortProduitDTO;
+import dtos.produit.LongProduitDTO;
+import dtos.produit.ShortProduitDTO;
 import me.ubmagh.inventoryservicequery.entities.Produit;
 import org.mapstruct.Mapper;
 

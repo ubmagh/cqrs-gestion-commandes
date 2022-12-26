@@ -1,15 +1,15 @@
 package me.ubmagh.inventoryservicequery.web;
 
-import dtos.LongProduitDTO;
-import dtos.ShortProduitDTO;
+import dtos.produit.LongProduitDTO;
+import dtos.produit.ShortProduitDTO;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import me.ubmagh.inventoryservicequery.entities.Produit;
 import me.ubmagh.inventoryservicequery.mappers.ProduitMapper;
 import org.axonframework.messaging.responsetypes.ResponseTypes;
 import org.axonframework.queryhandling.QueryGateway;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import queries.GetAllProduitsQuery;
 import queries.GetProduitByIdQuery;
@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 @RestController
 @AllArgsConstructor
+@Slf4j
 public class ProduitQueryController {
 
     private QueryGateway queryGateway;
@@ -28,7 +29,10 @@ public class ProduitQueryController {
     @GetMapping("/produits")
     public List<ShortProduitDTO> getAllProduits(){
         List<Produit> response = queryGateway.query(new GetAllProduitsQuery(), ResponseTypes.multipleInstancesOf(Produit.class)).join();
-        List<ShortProduitDTO> dtos = response.stream().map(c->mapper.toShortProduit(c)).collect(Collectors.toList());
+        List<ShortProduitDTO> dtos = response.stream().map(c->{
+            log.info("+++++==========> id:  "+c.getId());
+            return mapper.toShortProduit(c);
+        }).collect(Collectors.toList());
         return dtos;
     }
 
